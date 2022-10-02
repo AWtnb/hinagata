@@ -106,27 +106,63 @@
             };
         }
 
+        const askChoice = {
+            props: ["ask"],
+            emits:["updateValue"],
+            template: `
+            <select v-on:input="update">
+                <option value="">---</option>
+                <option v-for="(opt, idx) in ask.options">{{opt}}</option>
+            </select>
+            `,
+            methods: {
+                update: function(e) {
+                    this.$emit("updateValue", {
+                        before: this.ask.rawField,
+                        after: e.target.value
+                    })
+                }
+            }
+        }
+        const askText = {
+            props: ["ask"],
+            emits:["updateValue"],
+            template: `
+            <input tyle="text" v-on:input="update">
+            `,
+            methods: {
+                update: function(e) {
+                    this.$emit("updateValue", {
+                        before: this.ask.rawField,
+                        after: e.target.value
+                    })
+                }
+            }
+        }
+
         const askField = {
             props: ["ask"],
             emits:["updateValue"],
+            components: {
+                "ask-choice": askChoice,
+                "ask-text": askText,
+            },
             template: `
             <div>
             <label>{{ask.prompt}}</label>
             <div v-if="ask.options.length">
-                <select
-                    v-on:input="$emit('updateValue', {before:ask.rawField, after:$event.target.value})"
-                >
-                    <option value="">---</option>
-                    <option v-for="(opt, idx) in ask.options">{{opt}}</option>
-                </select>
+                <ask-choice v-on:update-value="update" :ask="ask"></ask-choice>
             </div>
             <div v-else>
-                <input tyle="text"
-                    v-on:input="$emit('updateValue', {before:ask.rawField, after:$event.target.value})"
-                />
+                <ask-text v-on:update-value="update" :ask="ask"></ask-text>
             </div>
             </div>
             `,
+            methods: {
+                update: function(e) {
+                    this.$emit("updateValue", e)
+                }
+            }
         }
 
         const vm = Vue.createApp({
@@ -134,7 +170,7 @@
                 return {
                     content: [
                         "どんぶらこと{{フルーツ}}が流れてきました。",
-                        "{{人|おじいさん;おばあさん}}は{{フルーツ}}を家に持ち帰りました。",
+                        "{{人|おじいさん;おばあさん;お姉さん;お兄さん}}は{{フルーツ}}を家に持ち帰りました。",
                         "{{フルーツ}}からは子どもが生まれ、その子は{{主人公名}}と名づけられました。"
                     ].join("\n"),
                     replaceMap: new Map(),
@@ -157,11 +193,6 @@
                         return replaced.replaceAll(before, after);
                     }, this.content);
                 },
-                styles: function() {
-                    return {
-                        "height": this.content.split(/\n/).length * 2 + "rem"
-                    }
-                }
             },
             components: {
                 "ask-field": askField
