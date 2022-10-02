@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20style%3D%22dominant-baseline%3Acentral%3Btext-anchor%3Amiddle%3Bfont-size%3A90px%3B%22%3E%26%23x1F9E9%3B%3C/text%3E%3C/svg%3E">
+    <title>SNIPPETS</title>
+    <link rel="stylesheet" type="text/css" href="./almond.lite.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        :root {
+            --border: #004d61;
+            --bg: #e5e2df;
+            --bg-light: #f5f5f5;
+        }
+
+        html {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            background-color: var(--bg);
+        }
+
+        body {
+            color: #333;
+            max-width: 800px;
+            min-width: 660px;
+        }
+
+        textarea {
+            display: block;
+            width: 90%;
+            margin: 0 auto;
+            min-height: 200px;
+            color: gray;
+        }
+        .flexible {
+            width: 90%;
+            margin: 0 auto;
+        }
+        .result {
+            height: 100%;
+            margin-top: 2rem;
+            padding: 8px;
+            white-space: pre-wrap;
+            background-color: var(--bg-light);
+        }
+
+        input {
+            box-shadow: 1px 1px 5px 1px #aaa;
+            width: 100px;
+        }
+
+
+        button.done::after {
+            content: "\2714";
+            color: yellow;
+            margin-left: 1em;
+        }
+
+        .repo {
+            margin: 2rem;
+            text-align: center;
+        }
+        .repo a {
+            text-decoration: none;
+        }
+
+</style>
+</head>
+
+<body>
+    <div id="app">
+        <textarea v-model="content" ></textarea>
+        <div class="flexible">
+            <ask-field
+            :ask="question"
+            v-for="(question, idx) in questions" :key="idx"
+            v-on:update-value="update">
+        </ask-field>
+        <div class="result">{{replaced}}</div>
+        <button @click="copy" :class="{done:copied}">COPY</button>
+    </div>
+    </div>
+    <div class="repo"><a href="https://github.com/AWtnb/snippets" target="_blank">github</a></div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
+    <script>
+
+        const parseField = (s) => {
+            const inner = s.replace(/[{}]/g, "").replace(/\uff1b/g, ";").trim();
+            if (inner.indexOf("|") != -1) {
+                const elems = inner.split("|");
+                return {
+                    "rawField": s,
+                    "prompt": elems[0],
+                    "options": elems[1].split(";")
+                };
+            }
+            return {
+                "rawField": s,
+                "prompt": inner,
+                "options": []
+            };
+        }
+
+        const askField = {
+            props: ["ask"],
+            emits:["updateValue"],
+            template: `
+            <div>
+            <label>{{ask.prompt}}</label>
+            <div v-if="ask.options.length">
+                <select
+                    v-on:input="$emit('updateValue', {before:ask.rawField, after:$event.target.value})"
+                >
+                    <option value="">---</option>
+                    <option v-for="(opt, idx) in ask.options">{{opt}}</option>
+                </select>
+            </div>
+            <div v-else>
+                <input tyle="text"
+                    v-on:input="$emit('updateValue', {before:ask.rawField, after:$event.target.value})"
+                />
+            </div>
+            </div>
+            `,
+        }
+
+        const vm = Vue.createApp({
+            data: function () {
+                return {
+                    content: [
+                        "どんぶらこと{{フルーツ}}が流れてきました。",
+                        "{{人|おじいさん;おばあさん}}は{{フルーツ}}を家に持ち帰りました。",
+                        "{{フルーツ}}からは子どもが生まれ、その子は{{主人公名}}と名づけられました。"
+                    ].join("\n"),
+                    replaceMap: new Map(),
+                    copied: false,
+                }
+            },
+            computed: {
+                questions: function() {
+                    const found = this.content.match(/{{.+?}}/g);
+                    if (found) {
+                        const noDup = Array.from(new Set(found));
+                        return noDup.map(f => parseField(f));
+                    }
+                    return [];
+                },
+                replaced: function() {
+                    return Array.from(this.replaceMap).reduce((replaced, pair) => {
+                        const before = pair[0];
+                        const after = (pair[1].length > 0)? pair[1] : "\u3013".repeat(2);
+                        return replaced.replaceAll(before, after);
+                    }, this.content);
+                },
+                styles: function() {
+                    return {
+                        "height": this.content.split(/\n/).length * 2 + "rem"
+                    }
+                }
+            },
+            components: {
+                "ask-field": askField
+            },
+            methods: {
+                update: function(e) {
+                    this.replaceMap.set(e.before, e.after);
+                    this.copied = false;
+                },
+                copy: function() {
+                    navigator.clipboard.writeText(this.replaced.replace(/&amp;/g, "&"));
+                    this.copied = true;
+                }
+            },
+            watch: {
+                content: function() {
+                    this.copied = false;
+                }
+            }
+        })
+        .mount("#app");
+    </script>
+</body>
+
+</html>
