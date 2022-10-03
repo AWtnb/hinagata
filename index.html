@@ -34,7 +34,6 @@
             width: 90%;
             margin: 0 auto;
             min-height: 200px;
-            color: gray;
         }
         .flexible {
             width: 90%;
@@ -72,7 +71,7 @@
 
 <body>
     <div id="app">
-        <textarea v-model="content" ></textarea>
+        <textarea v-model="content" v-focus></textarea>
         <div class="flexible">
             <ask-field
             :ask="question"
@@ -208,6 +207,13 @@
             watch: {
                 content: function() {
                     this.copied = false;
+                }
+            },
+            directives: {
+                focus: {
+                    mounted: function (el) {
+                        el.select()
+                    }
                 }
             }
         })
