@@ -27,17 +27,23 @@
         body {
             max-width: 800px;
             min-width: 660px;
+            width: 90%;
         }
 
         textarea {
             display: block;
-            width: 90%;
             margin: 0 auto;
+            width: 100%;
             min-height: 200px;
         }
         .flexible {
-            width: 90%;
+            width: 100%;
             margin: 0 auto;
+        }
+        .flexible .ui {
+            max-height: 12.5rem;
+            padding: 0 8px;
+            overflow: auto;
         }
         .flexible label {
             font-size: .85rem;
@@ -46,7 +52,8 @@
         .result {
             font-family: 'Kiwi Maru', sans-serif;
             height: 100%;
-            margin-top: 2rem;
+            width: calc(100% - 16px);
+            margin: 2rem auto 0 auto;
             padding: 8px;
             white-space: pre-wrap;
             background-color: var(--bg-light);
@@ -55,7 +62,6 @@
         input {
             width: 100px;
         }
-
 
         button.done::after {
             content: "\2714";
@@ -78,14 +84,16 @@
     <div id="app">
         <textarea v-model="content" v-focus></textarea>
         <div class="flexible">
-            <ask-field
-            :ask="question"
-            v-for="(question, idx) in questions" :key="idx"
-            v-on:update-value="update">
-        </ask-field>
-        <div class="result">{{replaced}}</div>
-        <button @click="copy" :class="{done:copied}">COPY</button>
-    </div>
+            <div class="ui">
+                <ask-field
+                    :ask="question"
+                    v-for="(question, idx) in questions" :key="idx"
+                    v-on:update-value="update">
+                </ask-field>
+            </div>
+            <div class="result">{{replaced}}</div>
+            <button @click="copy" :class="{done:copied}">COPY</button>
+        </div>
     </div>
     <div class="repo"><a href="https://github.com/AWtnb/hinagata" target="_blank">github</a></div>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
