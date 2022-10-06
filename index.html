@@ -39,15 +39,15 @@
             if (inner.indexOf("|") != -1) {
                 const elems = inner.split("|");
                 return {
-                    "rawField": s,
-                    "prompt": elems[0],
-                    "options": elems[1].split(";")
+                    rawField: s,
+                    prompt: elems[0],
+                    options: elems[1].split(";")
                 };
             }
             return {
-                "rawField": s,
-                "prompt": inner,
-                "options": []
+                rawField: s,
+                prompt: inner,
+                options: []
             };
         }
 
@@ -134,7 +134,7 @@
                 replaced: function() {
                     return Array.from(this.replaceMap).reduce((replaced, pair) => {
                         const before = pair[0];
-                        const after = (pair[1].length > 0)? pair[1] : "\u3013".repeat(2);
+                        const after = (pair[1].length > 0)? pair[1] : before;
                         return replaced.replaceAll(before, after);
                     }, this.content);
                 },
