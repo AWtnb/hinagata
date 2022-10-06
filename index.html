@@ -13,7 +13,9 @@
 
 <body>
     <div id="app">
-        <textarea v-model="content" v-focus></textarea>
+        <div class="text-container">
+            <textarea v-model="content" v-focus></textarea>
+        </div>
         <div class="flexible">
             <div class="ui">
                 <ask-field
@@ -22,6 +24,8 @@
                     v-on:update-value="update">
                 </ask-field>
             </div>
+        </div>
+        <div class="text-container">
             <div class="result">{{replaced}}</div>
             <button @click="copy" :class="{done:copied}">COPY</button>
         </div>

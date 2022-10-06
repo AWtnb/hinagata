@@ -14,54 +14,39 @@ html {
 }
 
 body {
-    max-width: 800px;
-    min-width: 660px;
-    width: 90%;
+    min-width: 800px;
+    max-width: 1800px;
+    padding: 8px;
 }
 
-textarea {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
-    min-height: 200px;
+#app {
+    height: 90vh;
+    display: flex;
+    justify-content: space-between;
 }
+
 .flexible {
-    width: 100%;
-    margin: 0 auto;
-}
-.flexible .ui {
-    max-height: 12.5rem;
-    padding: 0 8px;
+    padding: 4px;
     overflow: auto;
+    max-width: 20rem;
 }
-.flexible label {
-    font-size: .85rem;
-    color: var(--primary);
-}
-.result {
-    font-family: 'Kiwi Maru', sans-serif;
+
+.text-container {
+    border: 1px solid steelblue;
     height: 100%;
-    width: calc(100% - 16px);
-    margin: 2rem auto 0 auto;
+    width: calc((100% - 20rem) / 2);
+}
+.text-container textarea {
+    width: 100%;
+    height: 100%;
+}
+.text-container .result {
+    width: calc(100% - 8px * 2);
+    height: calc(100% - 8px * 2);
+    overflow: auto;
     padding: 8px;
+    font-family: 'Kiwi Maru', sans-serif;
     white-space: pre-wrap;
     background-color: var(--bg-light);
 }
 
-input {
-    width: 100px;
-}
-
-button.done::after {
-    content: "\2714";
-    color: yellow;
-    margin-left: 1em;
-}
-
-.repo {
-    margin: 2rem;
-    text-align: center;
-}
-.repo a {
-    text-decoration: none;
-}
