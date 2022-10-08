@@ -50,3 +50,8 @@ body {
     background-color: var(--bg-light);
 }
 
+button.done::after {
+    content: "\2714";
+    color: yellow;
+    margin-left: 1em;
+}
