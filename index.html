@@ -46,7 +46,7 @@
                 return {
                     rawField: s,
                     prompt: elems[0],
-                    options: elems[1].split(";")
+                    options: elems[1].split(";").map(x => x.trim())
                 };
             }
             return {
@@ -98,14 +98,12 @@
                 "ask-text": askText,
             },
             template: `
-            <div>
             <label>{{ask.prompt}}</label>
             <div v-if="ask.options.length">
                 <ask-choice v-on:update-value="update" :ask="ask"></ask-choice>
             </div>
             <div v-else>
                 <ask-text v-on:update-value="update" :ask="ask"></ask-text>
-            </div>
             </div>
             `,
             methods: {
