@@ -46,7 +46,7 @@
                 return {
                     rawField: s,
                     prompt: elems[0],
-                    options: elems[1].split(";").map(x => x.trim())
+                    options: elems[1].split(";").map(x => x.trim()).filter(Boolean)
                 };
             }
             return {
