@@ -40,7 +40,7 @@
     <script>
 
         const parseField = (s) => {
-            const inner = s.replace(/[{}]/g, "").replace(/\uff1b/g, ";").trim();
+            const inner = s.replace(/[{}]/g, "").replace(/\uff5c/, "|").replace(/\uff1b/g, ";").trim();
             if (inner.indexOf("|") != -1) {
                 const elems = inner.split("|");
                 return {
