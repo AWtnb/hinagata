@@ -19,7 +19,7 @@
     <div id="app">
         <div class="text-container">
             <textarea v-model="content" v-focus></textarea>
-        </div>  
+        </div>
         <div class="flexible">
             <div class="ui">
                 <ask-field
@@ -27,11 +27,12 @@
                     v-for="(question, idx) in questions" :key="idx"
                     v-on:update-value="update">
                 </ask-field>
+                <hr>
+                <button @click="copy" :class="{done:copied}">COPY</button>
             </div>
         </div>
         <div class="text-container">
             <div class="result">{{replaced}}</div>
-            <button @click="copy" :class="{done:copied}">COPY</button>
         </div>
     </div>
     <div class="repo"><a href="https://github.com/AWtnb/hinagata" target="_blank">github</a></div>

@@ -22,13 +22,16 @@ body {
 #app {
     height: 90vh;
     display: flex;
-    justify-content: space-between;
 }
 
 .flexible {
     padding: 4px;
     overflow: auto;
-    max-width: 20rem;
+    width: 20rem;
+    display: block;
+}
+.flexible input, .flexible select {
+    width: 100%;
 }
 
 .text-container {
@@ -50,8 +53,19 @@ body {
     background-color: var(--bg-light);
 }
 
+button {
+    width: 100%;
+    font-size: 1.1rem;
+    position: relative;
+}
 button.done::after {
+    position: absolute;
     content: "\2714";
     color: yellow;
-    margin-left: 1em;
+    font-weight: bold;
+    right: 2rem;
+}
+
+.repo {
+    text-align: right;
 }
