@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="text-container">
-            <div class="result">{{replaced}}</div>
+            <div class="result">{{filledContent}}</div>
         </div>
     </div>
     <div class="repo"><a href="https://github.com/AWtnb/hinagata" target="_blank">github</a></div>
@@ -134,7 +134,7 @@
                     }
                     return [];
                 },
-                replaced: function() {
+                filledContent: function() {
                     return Array.from(this.replaceMap).reduce((replaced, pair) => {
                         const before = pair[0];
                         const after = (pair[1].length > 0)? pair[1] : before;
@@ -151,7 +151,7 @@
                     this.copied = false;
                 },
                 copy: function() {
-                    navigator.clipboard.writeText(this.replaced.replace(/&amp;/g, "&"));
+                    navigator.clipboard.writeText(this.filledContent.replace(/&amp;/g, "&"));
                     this.copied = true;
                 }
             },
