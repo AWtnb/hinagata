@@ -136,8 +136,10 @@
                 },
                 filledContent: function() {
                     return Array.from(this.replaceMap).reduce((replaced, pair) => {
-                        const before = pair[0];
-                        const after = (pair[1].length > 0)? pair[1] : before;
+                        const [before, after] = pair;
+                        if (after.length < 1) {
+                            return replaced;
+                        }
                         return replaced.replaceAll(before, after);
                     }, this.content);
                 },
