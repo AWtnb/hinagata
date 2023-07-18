@@ -20,7 +20,8 @@ body {
 }
 
 #app {
-    height: 90vh;
+    height: calc(90vh - 80px);
+    margin-top: 80px;
     display: flex;
 }
 
@@ -64,8 +65,4 @@ button.done::after {
     color: yellow;
     font-weight: bold;
     right: 2rem;
-}
-
-.repo {
-    text-align: right;
 }
