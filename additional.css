@@ -55,6 +55,19 @@ textarea {
   height: 70%;
   overflow-y: auto;
 }
+.flexible button {
+  width: 95%;
+  position: relative;
+  margin: 36px 0 0 0;
+}
+.flexible button.done::after {
+  position: absolute;
+  content: "\2714";
+  color: yellow;
+  font-weight: bold;
+  right: 2rem;
+}
+
 
 .result-container {
   height: 100%;
@@ -63,23 +76,12 @@ textarea {
 .result-container .result {
   font-size: 14px;
   font-family: "Noto Sans JP", sans-serif;
-  height: 90%;
-  margin-bottom: 4px;
+  height: 100%;
+  margin: 0;
   background: #fbfbfb;
   overflow: auto;
   padding: 8px;
   white-space: pre-wrap;
 }
 
-button {
-  width: 100%;
-  position: relative;
-  margin: 0;
-}
-button.done::after {
-  position: absolute;
-  content: "\2714";
-  color: yellow;
-  font-weight: bold;
-  right: 2rem;
-}
+

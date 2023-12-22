@@ -70,12 +70,12 @@
         <div class="flexible">
             <textarea v-model="content" v-focus class="user-input"></textarea>
             <div class="ui">
-                <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx" v-on:update-value="update" />
+                <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx" v-on:update-value="update"></ask-field>
+                <button @click="copy" :class="{done:copied}" :disabled="questions.length < 1">COPY</button>
             </div>
         </div>
         <div class="result-container">
             <textarea v-model="filledContent" disabled class="result"></textarea>
-            <button @click="copy" :class="{done:copied}">COPY</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.js"></script>
