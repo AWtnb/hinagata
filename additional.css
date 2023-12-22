@@ -46,7 +46,7 @@ textarea {
   margin: 0.5em 0 0 0;
 }
 .flexible select,
-.flexible input:not([type]) {
+.flexible input[type="text"] {
   height: inherit;
   width: 95%;
   margin: 0;
