@@ -70,7 +70,8 @@
         <div class="flexible">
             <textarea v-model="content" v-focus class="user-input"></textarea>
             <div class="ui">
-                <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx" v-on:update-value="update"></ask-field>
+                <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx"
+                    v-on:update-value="update"></ask-field>
                 <button @click="copy" :class="{done:copied}" :disabled="questions.length < 1">COPY</button>
             </div>
         </div>
@@ -155,21 +156,30 @@
             }
         }
 
-        const vm = Vue.createApp({
+        const getTemplate = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const t = urlParams.get("template");
+            if (0 < t.length) {
+                return t;
+            }
+            return [
+                "どんぶらこと{{フルーツ}}が流れてきました。",
+                "{{人|おじいさん;おばあさん;お姉さん;お兄さん}}は{{フルーツ}}を家に持ち帰りました。",
+                "{{フルーツ}}からは子どもが生まれ、その子は{{主人公名}}と名づけられました。"
+            ].join("\n")
+        }
+
+        Vue.createApp({
             data: function () {
                 return {
-                    content: [
-                        "どんぶらこと{{フルーツ}}が流れてきました。",
-                        "{{人|おじいさん;おばあさん;お姉さん;お兄さん}}は{{フルーツ}}を家に持ち帰りました。",
-                        "{{フルーツ}}からは子どもが生まれ、その子は{{主人公名}}と名づけられました。"
-                    ].join("\n"),
+                    content: getTemplate(),
                     replaceMap: new Map(),
                     copied: false,
                 }
             },
             computed: {
                 questions: function () {
-                    const found = this.content.match(/{{.+?}}/g);
+                    const found = this.content.match(/\{\{.+?\}\}/g);
                     if (found) {
                         const noDup = Array.from(new Set(found));
                         return noDup.map(f => parseField(f));
@@ -211,8 +221,7 @@
                     }
                 }
             }
-        })
-            .mount("#app");
+        }).mount("#app");
     </script>
 </body>
 
