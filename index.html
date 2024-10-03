@@ -158,8 +158,8 @@
 
         const getTemplate = () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const t = urlParams.get("template");
-            if (0 < t.length) {
+            const t = urlParams.get("template") || "";
+            if (t.length) {
                 return t;
             }
             return [
