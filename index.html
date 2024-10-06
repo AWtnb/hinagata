@@ -70,6 +70,8 @@
         <div class="flexible">
             <textarea v-model="content" v-focus class="user-input"></textarea>
             <div class="ui">
+                <button class="button-outline register" @click="register">URL登録</button>
+                <hr>
                 <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx"
                     v-on:update-value="update"></ask-field>
                 <button @click="copy" :class="{done:copied}" :disabled="questions.length < 1">COPY</button>
@@ -207,6 +209,11 @@
                 copy: function () {
                     navigator.clipboard.writeText(this.filledContent.replace(/&amp;/g, "&"));
                     this.copied = true;
+                },
+                register: function () {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set("template", this.content);
+                    document.location.search = urlParams.toString();
                 }
             },
             watch: {
