@@ -70,7 +70,7 @@
         <div class="flexible">
             <textarea v-model="content" v-focus class="user-input"></textarea>
             <div class="ui">
-                <button class="button-outline register" @click="register">URL登録</button>
+                <button class="button-outline register" @click="register" :disabled="unregisterable">URL登録</button>
                 <hr>
                 <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx"
                     v-on:update-value="update"></ask-field>
@@ -187,6 +187,9 @@
                         return noDup.map(f => parseField(f));
                     }
                     return [];
+                },
+                unregisterable: function () {
+                    return (this.content != this.filledContent) || (getTemplate() != this.content)
                 },
                 filledContent: function () {
                     return Array.from(this.replaceMap).reduce((replaced, pair) => {

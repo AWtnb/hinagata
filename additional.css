@@ -40,7 +40,7 @@ textarea {
 }
 .flexible textarea.user-input {
   height: 30%;
-  width: 100%;
+  width: calc(100% - 4px);
   margin: 0;
   padding: 2px;
 }
@@ -55,6 +55,7 @@ textarea {
 }
 .flexible .ui {
   height: 70%;
+  padding-right: 4px;
   overflow-y: auto;
 }
 .flexible button {
