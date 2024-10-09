@@ -158,9 +158,12 @@
             }
         }
 
-        const getTemplate = () => {
+        const getUrlParam = () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const t = urlParams.get("template") || "";
+            return urlParams.get("template") || "";
+        }
+        const getTemplate = () => {
+            const t = getUrlParam();
             if (t.length) {
                 return t;
             }
@@ -189,7 +192,10 @@
                     return [];
                 },
                 unregisterable: function () {
-                    return (this.content != this.filledContent) || (getTemplate() != this.content)
+                    if (this.content != this.filledContent) { return true }
+                    const t = getUrlParam();
+                    if (t.length && t != this.content) { return true }
+                    return false;
                 },
                 filledContent: function () {
                     return Array.from(this.replaceMap).reduce((replaced, pair) => {
