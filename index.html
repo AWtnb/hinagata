@@ -69,9 +69,10 @@
     <div id="app">
         <div class="flexible">
             <textarea v-model="content" v-focus class="user-input"></textarea>
-            <div class="ui">
+            <div class="register">
                 <button class="button-outline register" @click="register" :disabled="unregisterable">URL登録</button>
-                <hr>
+            </div>
+            <div class="ui">
                 <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx"
                     v-on:update-value="update"></ask-field>
                 <button @click="copy" :class="{done:copied}" :disabled="questions.length < 1">COPY</button>
