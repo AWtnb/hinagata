@@ -193,10 +193,10 @@
                     return [];
                 },
                 unregisterable: function () {
-                    if (this.content != this.filledContent) { return true }
+                    if (this.content == this.filledContent) { return false }
                     const t = getUrlParam();
-                    if (t.length && t != this.content) { return true }
-                    return false;
+                    if (t.length < 1) { return false }
+                    return true;
                 },
                 filledContent: function () {
                     return Array.from(this.replaceMap).reduce((replaced, pair) => {
