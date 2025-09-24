@@ -70,7 +70,7 @@
         <div class="flexible">
             <textarea v-model="content" v-focus class="user-input"></textarea>
             <div class="register">
-                <button class="button-outline register" @click="register" :disabled="unregisterable">URL登録</button>
+                <button class="button-outline register" @click="register" :disabled="unregisterable">URLに反映する</button>
             </div>
             <div class="ui">
                 <ask-field :ask="question" v-for="(question, idx) in questions" :key="idx"
@@ -192,11 +192,16 @@
                     }
                     return [];
                 },
-                unregisterable: function () {
-                    if (this.content == this.filledContent) { return false }
+                registerable: function () {
                     const t = getUrlParam();
-                    if (t.length < 1) { return false }
-                    return true;
+                    if (t.length < 1) {
+                        return this.filledContent == this.content
+                    }
+                    if (t != this.content) return true;
+                    return false;
+                },
+                unregisterable: function () {
+                    return !this.registerable;
                 },
                 filledContent: function () {
                     return Array.from(this.replaceMap).reduce((replaced, pair) => {
